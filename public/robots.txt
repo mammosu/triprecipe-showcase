@@ -1,0 +1,8 @@
+User-agent: *
+Disallow: /users/
+Disallow: /recipes/new
+Disallow: /recipes/*/edit
+Disallow: /bookmarks
+Allow: /
+
+Sitemap: https://triprecipe.app/sitemap.xml

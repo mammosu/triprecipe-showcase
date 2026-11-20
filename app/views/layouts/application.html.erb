@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <% canonical_url = seo_canonical_url %>
+    <title><%= seo_page_title %></title>
+    <meta name="description" content="<%= seo_meta_description %>">
+    <%= tag.link rel: "canonical", href: canonical_url if canonical_url.present? %>
+    <%= render_og_meta_tags %>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="TripRecipe">
+    <meta name="mobile-web-app-capable" content="yes">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <% ga_measurement_id = ENV["GA_MEASUREMENT_ID"].to_s.strip %>
+    <% if ga_measurement_id.match?(/\AG-[A-Z0-9]+\z/) %>
+      <%= tag.script async: true,
+                     src: "https://www.googletagmanager.com/gtag/js?id=#{ga_measurement_id}",
+                     nonce: true %>
+      <%= javascript_tag nonce: true do %>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '<%= ga_measurement_id %>');
+      <% end %>
+    <% end %>
+
+    <%= yield :head %>
+
+    <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
+    <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
+
+    <link rel="icon" href="/icon.png" type="image/png">
+    <link rel="icon" href="/icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/icon.png">
+
+    <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
+    <%= javascript_importmap_tags %>
+  </head>
+
+  <body class="tr-bg tr-text-main antialiased" data-controller="photo-modal" data-action="keydown@window->photo-modal#handleKeydown">
+    <% flash_messages = flash.to_hash.each_with_object([]) do |(type, message), memo|
+         next if message.blank?
+         memo << [type.to_sym, message]
+       end %>
+
+    <div class="flex min-h-screen flex-col">
+      <header class="relative z-50 border-b-4 border-slate-900 bg-[#fffef6] shadow-[0_6px_0_0_#0f172a]" data-controller="mobile-menu">
+        <div class="mx-auto flex w-full max-w-5xl flex-wrap items-center justify-between px-2 py-4 md:px-6">
+          <%= link_to root_path, class: "inline-flex  rounded-full border-[3px] border-slate-900 bg-white px-4 py-1 text-lg font-black text-slate-900 shadow-[4px_4px_0_0_#0f172a] hover:-translate-y-0.5 transition" do %>
+            <%= image_tag "logo-triprecipe.svg", class: "h-full w-[120px] block" %>
+          <% end %>
+
+          <button type="button" class="md:hidden inline-flex items-center gap-2 rounded-full border-[3px] border-slate-900 bg-white px-3 py-1.5 text-xs font-black text-slate-900 shadow-[4px_4px_0_0_#0f172a]" data-action="mobile-menu#toggle">
+            <span class="sr-only">Open menu</span>
+            <span data-mobile-menu-target="iconOpen"><%= heroicon("bars-3", classes: "h-5 w-5") %></span>
+            <span data-mobile-menu-target="iconClose" class="hidden"><%= heroicon("x-mark", classes: "h-5 w-5") %></span>
+          </button>
+
+          <div class="hidden md:flex flex-1 flex-wrap items-center justify-end gap-3 text-sm font-black text-slate-900">
+            <nav class="flex flex-wrap items-center gap-2">
+              <%= link_to recipes_path,
+                          class: "inline-flex items-center gap-1.5 rounded-full border-[3px] border-slate-900 bg-white px-3 py-1.5 shadow-[3px_3px_0_0_#0f172a]" do %>
+                <%= heroicon("map", classes: "h-4 w-4") %>
+                <span>レシピ一覧</span>
+              <% end %>
+              <% if user_signed_in? %>
+                <%= link_to saved_recipes_path,
+                            class: "inline-flex items-center gap-1.5 rounded-full border-[3px] border-slate-900 bg-white px-3 py-1.5 shadow-[3px_3px_0_0_#0f172a]" do %>
+                  <%= heroicon("heart", classes: "h-4 w-4") %>
+                  <span>お気に入り</span>
+                <% end %>
+                <%= link_to account_path,
+                            class: "inline-flex items-center gap-1.5 rounded-full border-[3px] border-slate-900 bg-white px-3 py-1.5 shadow-[3px_3px_0_0_#0f172a]" do %>
+                  <%= heroicon("user-circle", classes: "h-4 w-4") %>
+                  <span>アカウント</span>
+                <% end %>
+              <% end %>
+            </nav>
+
+            <div class="flex flex-wrap items-center gap-2">
+              <% if user_signed_in? %>
+                <%= link_to new_recipe_path,
+                            class: "neo-btn-brutal bg-primary-100 text-slate-900" do %>
+                  <%= heroicon("plus-circle", classes: "h-4 w-4") %>
+                  <span>レシピ作成</span>
+                <% end %>
+                <%= button_to destroy_user_session_path,
+                            method: :delete,
+                            form: { class: "inline-flex" },
+                            class: "neo-btn-brutal bg-white text-slate-900" do %>
+                  <%= heroicon("lock-closed", classes: "h-4 w-4") %>
+                  <span>ログアウト</span>
+                <% end %>
+              <% else %>
+                <%= link_to new_user_session_path,
+                            class: "neo-btn-brutal bg-white text-slate-900" do %>
+                  <%= heroicon("lock-closed", classes: "h-4 w-4") %>
+                  <span>ログイン</span>
+                <% end %>
+                <%= link_to new_user_registration_path,
+                            class: "neo-btn-brutal bg-primary-100 text-slate-900" do %>
+                  <%= heroicon("user-circle", classes: "h-4 w-4") %>
+                  <span>新規登録</span>
+                <% end %>
+              <% end %>
+            </div>
+          </div>
+        </div>
+
+        <div data-mobile-menu-target="menu" class="hidden md:hidden absolute top-full left-0 right-0 z-50 rounded-b-[32px] border-[3px] border-slate-900 bg-[#fffef6] shadow-[12px_12px_0_0_#0f172a]">
+          <div class="space-y-4 px-4 py-6">
+             <nav class="flex flex-col gap-3">
+               <%= link_to recipes_path, class: "neo-btn-brutal bg-white justify-start text-base font-black" do %>
+                 <%= heroicon("map", classes: "h-5 w-5 text-slate-900") %>
+                 レシピ一覧
+               <% end %>
+
+               <% if user_signed_in? %>
+                 <%= link_to saved_recipes_path, class: "neo-btn-brutal bg-white justify-start text-base font-black" do %>
+                   <%= heroicon("heart", classes: "h-5 w-5 text-rose-500") %>
+                   お気に入り
+                 <% end %>
+                 <%= link_to account_path, class: "neo-btn-brutal bg-white justify-start text-base font-black" do %>
+                   <%= heroicon("user-circle", classes: "h-5 w-5 text-slate-900") %>
+                   アカウント
+                 <% end %>
+               <% end %>
+             </nav>
+
+            <div class="space-y-3 pt-4 border-t-4 border-dashed border-slate-900">
+              <% if user_signed_in? %>
+                <%= link_to new_recipe_path, class: "neo-btn-brutal bg-primary-100 w-full justify-center" do %>
+                  <%= heroicon("plus-circle", classes: "h-5 w-5") %>
+                  レシピ作成
+                <% end %>
+
+                <%= button_to destroy_user_session_path, method: :delete, class: "neo-btn-brutal bg-white w-full justify-center" do %>
+                  <%= heroicon("lock-closed", classes: "h-5 w-5") %>
+                  ログアウト
+                <% end %>
+              <% else %>
+                <div class="grid grid-cols-2 gap-3">
+                  <%= link_to new_user_session_path, class: "neo-btn-brutal bg-white text-xs font-black justify-center" do %>
+                    <%= heroicon("lock-closed", classes: "h-4 w-4") %>
+                    ログイン
+                  <% end %>
+                  <%= link_to new_user_registration_path, class: "neo-btn-brutal bg-primary-100 text-xs font-black justify-center" do %>
+                    <%= heroicon("user-circle", classes: "h-4 w-4") %>
+                    新規登録
+                  <% end %>
+                </div>
+              <% end %>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <%# When rendering validation errors on the same request (flash.now cleared), messages will be empty %>
+      <%= render "shared/flash_messages_block", flash_messages: flash_messages %>
+
+      <main class="flex-1 py-8 md:py-12">
+        <% if content_for?(:full_bleed_layout) %>
+          <%= yield %>
+        <% else %>
+          <div class="mx-auto w-full max-w-4xl px-4 md:px-6 space-y-8">
+            <%= yield %>
+          </div>
+        <% end %>
+      </main>
+
+      <div data-photo-modal-target="modal"
+           class="fixed inset-0 z-50 hidden flex items-center justify-center bg-black/40 p-4"
+           role="dialog"
+           aria-modal="true"
+           aria-hidden="true"
+           data-action="click->photo-modal#close">
+        <div class="relative w-full max-w-4xl" data-action="click->photo-modal#stopPropagation">
+          <button type="button"
+                  data-photo-modal-target="closeButton"
+                  data-action="click->photo-modal#close"
+                  class="absolute -top-4 -right-4 z-10 inline-flex items-center justify-center rounded-full border-[2px] border-slate-900 bg-white p-2 shadow-[4px_4px_0_0_#0f172a]">
+            <span class="sr-only">Close</span>
+            <%= heroicon("x-mark", classes: "h-4 w-4") %>
+          </button>
+          <div class="neo-card relative bg-white p-2">
+            <button type="button"
+                    data-photo-modal-target="prevButton"
+                    data-action="click->photo-modal#prev"
+                    class="absolute left-2 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-slate-900 shadow-sm transition-opacity duration-150">
+              <span class="sr-only">Previous</span>
+              <%= heroicon("arrow-left", classes: "h-4 w-4") %>
+            </button>
+            <button type="button"
+                    data-photo-modal-target="nextButton"
+                    data-action="click->photo-modal#next"
+                    class="absolute right-2 top-1/2 inline-flex h-9 w-9 -translate-y-1/2 items-center justify-center rounded-full bg-white/80 text-slate-900 shadow-sm transition-opacity duration-150">
+              <span class="sr-only">Next</span>
+              <%= heroicon("arrow-right", classes: "h-4 w-4") %>
+            </button>
+            <img data-photo-modal-target="image"
+                 class="max-h-[80vh] w-full rounded-lg bg-slate-50 object-contain"
+                 alt="">
+            <div class="mt-2 text-center text-xs font-mono text-slate-600" data-photo-modal-target="counter"></div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="mt-10 border-t-4 border-slate-900 bg-slate-900 text-white shadow-[0_-6px_0_0_#0f172a]">
+        <div class="mx-auto flex w-full max-w-5xl flex-col gap-3 px-4 py-6 text-xs md:flex-row md:items-center md:justify-between md:px-6">
+          <p class="font-black uppercase tracking-[0.4em] text-primary-200">TripRecipe</p>
+          <p class="text-sm font-semibold text-primary-100/90">&copy; <%= Time.current.year %> TripRecipe — 旅のナレッジを仲間と共有。</p>
+          <div class="flex flex-wrap gap-2 text-xs font-black">
+            <%= link_to "レシピ一覧", recipes_path, class: "neo-btn-brutal bg-white text-slate-900 text-[10px]" %>
+            <%= link_to "保存レシピ", saved_recipes_path, class: "neo-btn-brutal bg-white text-slate-900 text-[10px]" if user_signed_in? %>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

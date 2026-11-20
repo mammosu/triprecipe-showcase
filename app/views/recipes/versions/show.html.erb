@@ -1,0 +1,47 @@
+<% content_for :title, "変更差分 - #{@recipe.title}" %>
+
+<div class="mx-auto max-w-5xl px-4 py-8 space-y-6">
+  <% back_path = safe_return_path(params[:return_to], fallback: recipe_versions_path(@recipe)) %>
+  <div class="mb-4 flex items-center gap-2 text-sm">
+    <%= link_to back_path, class: "inline-flex items-center gap-1 font-semibold text-slate-600 hover:text-slate-900" do %>
+      <%= heroicon("arrow-left", classes: "h-4 w-4") %>
+      <span>履歴一覧に戻る</span>
+    <% end %>
+  </div>
+
+  <section class="neo-panel bg-white p-6">
+    <p class="text-xs font-black uppercase tracking-[0.4em] text-slate-600">Version</p>
+    <h1 class="mt-2 text-3xl font-black text-slate-900">変更差分</h1>
+    <p class="text-sm font-semibold text-slate-700 mb-2">
+      <span class="inline-flex items-center gap-2">
+        <span class="rounded-full border-[3px] border-slate-900 bg-gray-100 px-2 py-1 text-xs font-black text-slate-700">
+          <%= version_event_label(@version.event) %>
+        </span>
+        <span><%= version_model_label(@version.item_type) %></span>
+      </span>
+      <% actor = User.find_by(id: @version.whodunnit)&.email || @version.try(:actor_email) %>
+      / 実行者: <%= actor.presence || "不明" %>
+      / <%= @version.created_at.strftime("%Y/%m/%d %H:%M") %>
+    </p>
+
+  <% if policy(@recipe).manage_collaborators? && @version.changeset.present? %>
+    <% if restorable_version?(@version) %>
+      <div class="mb-4">
+        <%= button_to restore_recipe_version_path(@recipe, @version),
+            method: :post,
+            data: { turbo_confirm: "このバージョンに復元しますか？現在の内容は失われます。" },
+            class: "neo-btn-brutal bg-primary-100 text-sm font-black" do %>
+          <%= heroicon("arrow-path", classes: "h-4 w-4") %>
+          <span>このバージョンに復元</span>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="neo-dashed text-center text-xs font-semibold text-slate-600">
+        このバージョンは復元対象外です。
+      </div>
+    <% end %>
+  <% end %>
+
+    <%= render "shared/components/version_changeset", version: @version %>
+  </section>
+</div>

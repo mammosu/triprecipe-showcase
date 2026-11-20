@@ -1,0 +1,41 @@
+<%#
+  locals:
+    - label: 表示テキスト (required)
+    - variant: 'primary' | 'secondary' | 'ghost' (default: 'primary')
+    - href: リンク先 (optional)
+    - link_method: link_to の method (optional)
+    - button_type: 'submit' | 'button' | 'reset' (default: 'button')
+    - form: フォームオブジェクトを渡すと form.submit を使う (optional)
+%>
+<% variant ||= 'primary' %>
+<%# Ensure optional locals are defined to avoid undefined local variable errors in callers %>
+<% href = local_assigns.fetch(:href, nil) %>
+<% link_method = local_assigns.fetch(:link_method, nil) %>
+<% button_type = local_assigns.fetch(:button_type, 'button') %>
+<% form = local_assigns.fetch(:form, nil) %>
+<%
+  classes = case variant.to_s
+            when 'primary'
+              'inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold text-white shadow-sm tr-primary-bg tr-primary-hover'
+            when 'secondary'
+              'inline-flex items-center justify-center rounded-full border tr-border tr-surface px-6 py-3 text-sm font-semibold tr-text-main hover:bg-gray-50'
+            when 'ghost'
+              'inline-flex items-center justify-center p-2 rounded-full tr-text-sub hover:bg-gray-100'
+            when 'neo_primary'
+              'neo-btn-brutal bg-primary-100 text-slate-900'
+            when 'neo_secondary'
+              'neo-btn-brutal bg-white text-slate-900'
+            else
+              'inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold'
+            end
+%>
+
+<% if href.present? %>
+  <% opts = {} %>
+  <% opts[:method] = link_method if local_assigns.key?(:link_method) && link_method.present? %>
+  <%= link_to label, href, opts.merge(class: classes) %>
+<% elsif defined?(form) && button_type.to_s == 'submit' && form %>
+  <%= form.submit label, class: classes %>
+<% else %>
+  <button type="<%= (button_type || 'button') %>" class="<%= classes %>"><%= label %></button>
+<% end %>

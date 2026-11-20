@@ -1,0 +1,80 @@
+ja:
+  hello: "こんにちは"
+  date:
+    order:
+      - :year
+      - :month
+      - :day
+    formats:
+      default: "%Y/%m/%d"
+  time:
+    formats:
+      default: "%Y/%m/%d %H:%M"
+      long: "%Y年%m月%d日 %H時%M分"
+  errors:
+    format: "%{attribute}%{message}"
+    messages:
+      accepted: "を受諾してください"
+      blank: "を入力してください"
+      confirmation: "が一致しません"
+      empty: "を入力してください"
+      invalid: "は不正な値です"
+      not_a_number: "は数値で入力してください"
+      too_long: "%{count}文字以内で入力してください"
+      too_short: "%{count}文字以上で入力してください"
+      taken: "はすでに使用されています"
+      record_invalid: "バリデーションに失敗しました: %{errors}"
+      not_saved:
+        one: "1件のエラーにより保存できませんでした。内容を確認してください。"
+        other: "%{count}件のエラーにより保存できませんでした。内容を確認してください。"
+  activerecord:
+    models:
+      user: "ユーザー"
+    attributes:
+      user:
+        email: "メールアドレス"
+        password: "パスワード"
+        password_confirmation: "パスワード（確認）"
+        current_password: "現在のパスワード"
+        remember_me: "ログイン状態を保持"
+  helpers:
+    submit:
+      create: "%{model}を作成する"
+      update: "%{model}を更新する"
+    label:
+      user:
+        password: "パスワード"
+        password_confirmation: "パスワード（確認）"
+  views:
+    pagination:
+      first: "&laquo; 最初"
+      last: "最後 &raquo;"
+      previous: "&lsaquo; 前"
+      next: "次 &rsaquo;"
+  recipes:
+    reports:
+      button: "通報"
+      flash:
+        created: "通報を受け付けました。"
+        failed: "通報の送信に失敗しました。"
+        duplicate: "このレシピはすでに通報済みです。"
+      modal:
+        title: "通報する"
+        description: "このレシピのどこが気になりましたか？"
+        reason_label: "理由"
+        reason_placeholder: "選択してください"
+        comment_label: "コメント（任意）"
+        comment_placeholder: "気になった点があれば具体的に記入してください"
+        submit: "通報する"
+        cancel: "キャンセル"
+        close: "閉じる"
+      reasons:
+        spam: "スパム・宣伝"
+        copyright: "著作権侵害"
+        hate: "ヘイト/差別"
+        adult: "アダルト/不適切"
+        other: "その他"
+      avo:
+        unpublish_message: "選択した通報のレシピを非公開にしますか？"
+        unpublish_confirm: "非公開にする"
+        unpublish_cancel: "キャンセル"

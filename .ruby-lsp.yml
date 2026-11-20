@@ -1,0 +1,12 @@
+# Ruby LSP 設定ファイル
+# LSPのインデックス作成を高速化するため、不要なディレクトリを除外します。
+exclude:
+  - vendor/**
+  - node_modules/**
+  - log/**
+  - tmp/**
+  - db/**
+  - storage/**
+  - public/**
+  - spec/fixtures/**
+  - test/fixtures/**

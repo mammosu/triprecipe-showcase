@@ -1,0 +1,222 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@100..900&display=swap');
+@import "tailwindcss";
+
+/* ----------------------------------------
+   TripRecipe Design System Colors
+   TailwindCSS-Rails 用カラートークン
+----------------------------------------- */
+
+@layer base {
+  :root {
+    /* Primary (Teal系: 親しみやすく柔らかい印象) */
+    --color-primary-50: #ecfdf5;
+    --color-primary-100: #d1fae5;
+    --color-primary-200: #a7f3d0;
+    --color-primary-500: #14b8a6;
+    /* teal-400-ish */
+    --color-primary-600: #0d9488;
+
+    /* Accent (Soft Coral) */
+    --color-accent-50: #fff1f2;
+    --color-accent-100: #ffe4e6;
+    --color-accent-500: #fb7185;
+    --color-accent-600: #f43f5e;
+
+    /* Gray / Background */
+    --color-bg: #FCFBF9;
+    /* より暖かいオフホワイト */
+    --color-surface: #ffffff;
+    --color-border-200: #e6eef0;
+    --color-border-300: #d9e6e8;
+
+    /* Text */
+    --color-text-main: #0f172a;
+    /* 少し深めで柔らかい黒 */
+    --color-text-sub: #6b7280;
+
+    /* State */
+    --color-error: #ef4444;
+    --color-success: #10b981;
+
+    /* Typography */
+    --font-sans: system-ui, -apple-system, BlinkMacSystemFont, "Inter", "Noto Sans JP", "Segoe UI", sans-serif;
+  }
+
+  html,
+  body {
+    font-family: var(--font-sans);
+    background-color: var(--color-bg);
+    color: var(--color-text-main);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@theme {
+  --color-primary-50: var(--color-primary-50);
+  --color-primary-100: var(--color-primary-100);
+  --color-primary-200: var(--color-primary-200);
+  --color-primary-500: var(--color-primary-500);
+  --color-primary-600: var(--color-primary-600);
+  --color-accent-50: var(--color-accent-50);
+  --color-accent-100: var(--color-accent-100);
+  --color-accent-500: var(--color-accent-500);
+  --color-accent-600: var(--color-accent-600);
+  --color-bg: var(--color-bg);
+  --color-surface: var(--color-surface);
+  --color-border-200: var(--color-border-200);
+  --color-border-300: var(--color-border-300);
+  --color-text-main: var(--color-text-main);
+  --color-text-sub: var(--color-text-sub);
+  --color-error: var(--color-error);
+  --color-success: var(--color-success);
+}
+
+/* カラーを Tailwind ユーティリティ化 */
+@layer utilities {
+  .tr-primary {
+    color: var(--color-primary-500);
+  }
+
+  .tr-primary-bg {
+    background-color: var(--color-primary-500);
+  }
+
+  .tr-primary-hover:hover {
+    background-color: var(--color-primary-600);
+  }
+
+  .tr-accent {
+    color: var(--color-accent-500);
+  }
+
+  .tr-accent-bg {
+    background-color: var(--color-accent-50);
+  }
+
+  .tr-secondary-bg {
+    background-color: var(--color-secondary-500);
+  }
+
+  .tr-bg {
+    background-color: var(--color-bg);
+  }
+
+  .tr-surface {
+    background-color: var(--color-surface);
+  }
+
+  .tr-text-main {
+    color: var(--color-text-main);
+  }
+
+  .tr-text-sub {
+    color: var(--color-text-sub);
+  }
+
+  .tr-border {
+    border-color: var(--color-border-200);
+  }
+
+  .tr-border-strong {
+    border-color: var(--color-border-300);
+  }
+
+  .tr-error {
+    color: var(--color-error);
+  }
+
+  .tr-success {
+    color: var(--color-success);
+  }
+}
+
+@layer utilities {
+  .city-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+
+    padding: 2px 12px;
+    border-radius: 9999px;
+
+    background-color: var(--color-primary-50);
+    color: var(--color-primary-600);
+
+    font-size: 0.75rem;
+    line-height: 1.25;
+    font-weight: 500;
+
+    white-space: nowrap;
+  }
+}
+
+@layer components {
+  .neo-panel {
+    border: 3px solid #0f172a;
+    border-radius: 32px;
+    background-color: var(--color-surface);
+    box-shadow: 16px 16px 0 0 #0f172a;
+  }
+
+  .neo-card {
+    border: 3px solid #0f172a;
+    border-radius: 24px;
+    background-color: var(--color-surface);
+    box-shadow: 8px 8px 0 0 #0f172a;
+  }
+
+  .neo-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    border: 3px solid #0f172a;
+    border-radius: 9999px;
+    background-color: #ffffff;
+    color: #0f172a;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.2em;
+    padding: 0.25rem 0.85rem;
+    text-transform: uppercase;
+    box-shadow: 4px 4px 0 0 #0f172a;
+  }
+
+  .neo-chip--pill {
+    border-radius: 24px;
+    letter-spacing: normal;
+    font-size: 0.75rem;
+    padding: 0.35rem 0.85rem;
+  }
+
+  .neo-btn-brutal {
+    border: 3px solid #0f172a;
+    border-radius: 9999px;
+    background-color: #ffffff;
+    color: #0f172a;
+    font-weight: 800;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+    padding: 0.55rem 1.2rem;
+    box-shadow: 5px 5px 0 0 rgba(15, 23, 42, 0.5);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .neo-btn-brutal:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 7px 7px 0 0 rgba(15, 23, 42, 0.4);
+  }
+
+  .neo-dashed {
+    border: 3px dashed #0f172a;
+    border-radius: 24px;
+    padding: 1.25rem;
+    background: repeating-linear-gradient(-45deg,
+        rgba(15, 23, 42, 0.02),
+        rgba(15, 23, 42, 0.02) 10px,
+        transparent 10px,
+        transparent 20px);
+  }
+}

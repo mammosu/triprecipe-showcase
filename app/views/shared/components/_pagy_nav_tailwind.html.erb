@@ -1,0 +1,49 @@
+<%# Tailwind-styled Pagy nav
+   Usage: render 'shared/components/pagy_nav_tailwind', pagy: @pagy_public %>
+<% pagy_obj = local_assigns[:pagy] || @pagy %>
+<% if pagy_obj && pagy_obj.pages.to_i > 1 %>
+  <nav class="mt-6 flex items-center justify-center" aria-label="Pagination">
+    <ul class="inline-flex items-center gap-2">
+      <%# Previous %>
+      <% if pagy_obj.page > 1 %>
+        <li>
+          <%= link_to url_for(request.query_parameters.merge(page: pagy_obj.page - 1)), class: "neo-btn-brutal bg-white text-xs font-black" do %>
+            <span class="sr-only">Previous</span>
+            ‹
+          <% end %>
+        </li>
+      <% else %>
+        <li>
+          <span class="neo-btn-brutal bg-gray-100 text-xs font-black text-gray-400">‹</span>
+        </li>
+      <% end %>
+
+      <%# Page numbers (simple range). For very many pages consider switching to Pagy series/keyset.%>
+      <% (1..pagy_obj.pages).each do |p| %>
+        <% if p == pagy_obj.page %>
+          <li>
+            <span class="neo-btn-brutal bg-primary-100 text-xs font-black"><%= p %></span>
+          </li>
+        <% else %>
+          <li>
+            <%= link_to p, url_for(request.query_parameters.merge(page: p)), class: "neo-btn-brutal bg-white text-xs font-black text-slate-900" %>
+          </li>
+        <% end %>
+      <% end %>
+
+      <%# Next %>
+      <% if pagy_obj.page < pagy_obj.pages %>
+        <li>
+          <%= link_to url_for(request.query_parameters.merge(page: pagy_obj.page + 1)), class: "neo-btn-brutal bg-white text-xs font-black" do %>
+            <span class="sr-only">Next</span>
+            ›
+          <% end %>
+        </li>
+      <% else %>
+        <li>
+          <span class="neo-btn-brutal bg-gray-100 text-xs font-black text-gray-400">›</span>
+        </li>
+      <% end %>
+    </ul>
+  </nav>
+<% end %>

@@ -1,0 +1,43 @@
+<% content_for :title, "招待の確認" %>
+
+<div class="mx-auto max-w-2xl px-4 py-8">
+  <div class="rounded-lg tr-bg-surface p-8 shadow-lg">
+    <h1 class="mb-6 text-2xl font-bold tr-text-main">レシピへの招待</h1>
+
+    <div class="mb-6 space-y-4">
+      <div>
+        <p class="text-sm tr-text-secondary">招待者</p>
+        <p class="text-lg font-medium tr-text-main"><%= display_user_identifier(@inviter) %></p>
+      </div>
+
+      <div>
+        <p class="text-sm tr-text-secondary">レシピ</p>
+        <p class="text-lg font-medium tr-text-main"><%= @recipe.title %></p>
+        <% if @recipe.city_label.present? %>
+          <p class="text-sm tr-text-secondary"><%= @recipe.city_label %></p>
+        <% end %>
+      </div>
+
+      <div>
+        <p class="text-sm tr-text-secondary">ロール</p>
+        <p class="text-lg font-medium tr-text-main">
+          <%= @invitation.viewer? ? "閲覧者" : @invitation.editor? ? "編集者" : "管理者" %>
+        </p>
+        <p class="text-sm tr-text-secondary">
+          <%= @invitation.viewer? ? "このレシピを閲覧できます" : @invitation.editor? ? "このレシピを編集できます" : "このレシピを編集し、コラボレーターを管理できます" %>
+        </p>
+      </div>
+    </div>
+
+    <div class="flex gap-4">
+      <%= button_to "承認する",
+          accept_collaborator_invitation_path(@invitation.invitation_token),
+          class: "flex-1 rounded-full tr-primary-bg px-6 py-3 font-semibold text-white hover:opacity-90" %>
+
+      <%= button_to "辞退する",
+          decline_collaborator_invitation_path(@invitation.invitation_token),
+          data: { turbo_confirm: "本当に辞退しますか？" },
+          class: "flex-1 rounded-full border tr-border-strong px-6 py-3 font-semibold tr-text-main hover:bg-gray-50" %>
+    </div>
+  </div>
+</div>

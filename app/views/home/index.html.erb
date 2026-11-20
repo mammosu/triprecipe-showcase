@@ -1,0 +1,234 @@
+<% content_for :title, "TripRecipe | そのまま真似できる実体験の旅行のレシピ" %>
+<% content_for :meta_description, "TripRecipeは、実際に歩いた順序・休憩・混雑回避のコツまで含めた旅行の旅程プランを、日別×時刻順に整理して共有できる「旅行のレシピ」です。" %>
+<% content_for :full_bleed_layout, true %>
+
+<% flow_steps = [
+  # COPY: “最短でできる感”を強める
+  { step: "01", title: "旅程の骨格を作る", detail: "都市・日数・ひとこと説明だけ。まずは“旅の型”を用意します。" },
+  { step: "02", title: "時刻順に並べる", detail: "1日ごとに行動を時系列で追加。混雑回避・休憩・子ども対応など“効くコツ”も一緒に残せます。" },
+  { step: "03", title: "共有して、同じ画面で相談", detail: "リンクを送るだけ。家族や友人と“同じ旅程”を見ながら、変更も迷いません。" }
+] %>
+
+<div class="space-y-12 px-4 pb-16 pt-8 md:px-6">
+  <section class="relative rounded-[40px]">
+    <div class="relative mx-auto grid w-full max-w-5xl gap-10 py-16 md:grid-cols-[1.1fr,0.9fr]">
+      <div class="space-y-8">
+        <div class="inline-flex items-center gap-3 rounded-full border-[3px] border-slate-900 bg-white px-5 py-1 text-xs font-black uppercase tracking-[0.5em] text-slate-900 shadow-[6px_6px_0_0_#0f172a]">
+          <%= heroicon("sparkles", classes: "h-4 w-4 text-slate-900") %>
+          TripRecipe
+          <span class="rounded-full bg-slate-900 px-2 py-0.5 text-[10px] font-black text-white">旅のレシピ</span>
+        </div>
+
+        <h1 class="text-4xl font-black leading-tight text-slate-900 md:text-5xl md:leading-[1.1]">
+          <%# COPY: “何ができるか”を先に言い切る %>
+          実際に回れた順序を、<span class="text-primary-500 underline decoration-4 decoration-amber-300 underline-offset-4">そのまま真似できる</span>旅程のお手本に。
+        </h1>
+
+        <p class="text-base font-semibold leading-relaxed text-slate-700">
+          <%# COPY: “現地で助かる要素”を明示 %>
+          時刻順・休憩・混雑回避のコツまで、日別に整理して共有。<br class="hidden md:block">
+          家族や友人と同じ画面を見ながら相談できる「旅行のレシピ」を作れます。
+        </p>
+
+        <ul class="space-y-2 text-sm font-semibold text-slate-800">
+          <li class="flex items-center gap-2">
+            <span class="inline-flex h-2 w-2 rounded-full bg-slate-900"></span> 日別×時刻順だから行く順番で悩まなくていい
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="inline-flex h-2 w-2 rounded-full bg-slate-900"></span> 家族と同じ画面で確認できる
+          </li>
+          <li class="flex items-center gap-2">
+            <span class="inline-flex h-2 w-2 rounded-full bg-slate-900"></span> 公開範囲を選べるので、安心してシェアできる
+          </li>
+        </ul>
+
+        <div class="flex flex-wrap gap-3">
+          <%= render "shared/components/button", label: "真似できる旅程を探す", href: recipes_path, variant: :neo_primary %>
+          <% if user_signed_in? %>
+            <%= link_to new_recipe_path, class: "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-black text-primary-500 hover:underline" do %>
+              <%= heroicon("pencil-square", classes: "h-5 w-5") %>
+              自分の旅をレシピ化する
+            <% end %>
+          <% else %>
+            <%= render "shared/components/button", label: "無料でレシピを作る", href: new_user_registration_path, variant: :neo_secondary %>
+          <% end %>
+        </div>
+
+        <div class="flex flex-wrap gap-4 text-xs font-black text-slate-900">
+          <div class="inline-flex items-center gap-2 rounded-2xl border-[3px] border-slate-900 bg-white px-3 py-1 shadow-[4px_4px_0_0_#0f172a]"><%= heroicon("link", classes: "h-4 w-4 tr-primary") %> 共有リンク</div>
+          <div class="inline-flex items-center gap-2 rounded-2xl border-[3px] border-slate-900 bg-white px-3 py-1 shadow-[4px_4px_0_0_#0f172a]"><%= heroicon("shield-check", classes: "h-4 w-4 text-emerald-500") %> 公開範囲</div>
+          <div class="inline-flex items-center gap-2 rounded-2xl border-[3px] border-slate-900 bg-white px-3 py-1 shadow-[4px_4px_0_0_#0f172a]"><%= heroicon("bolt", classes: "h-4 w-4 text-amber-500") %> 日別×時刻順</div>
+        </div>
+      </div>
+
+      <div class="space-y-6">
+        <div class="neo-panel bg-[#fffef6] p-6 space-y-5 border-[1px] border-slate-300">
+          <div class="flex items-center justify-between gap-3">
+            <p class="neo-chip uppercase tracking-[0.5em] text-slate-900">実例</p>
+            <span class="inline-flex items-center gap-1 rounded-full border-[3px] border-slate-900 bg-emerald-300/90 px-3 py-0.5 text-[11px] font-black text-slate-900">
+              <%= heroicon("check-badge", classes: "h-4 w-4 text-slate-900") %>
+              実体験
+            </span>
+          </div>
+
+          <div>
+            <h3 class="text-2xl font-black text-slate-900">バルセロナ家族旅行のレシピ</h3>
+            <p class="mt-2 text-sm font-semibold leading-relaxed text-slate-700">
+              実際に歩いた順序を、日別×時刻順で整理。休憩の入れ方や混雑回避など、現地で効くコツも一緒に残しています。
+            </p>
+          </div>
+
+          <div class="grid gap-3 sm:grid-cols-2">
+            <div class="neo-card bg-white p-4">
+              <p class="inline-flex items-center gap-1 text-xs font-black uppercase tracking-[0.4em] text-slate-600">
+                <%= heroicon("map-pin", classes: "h-4 w-4") %>
+                都市
+              </p>
+              <p class="mt-2 text-lg font-black text-slate-900">バルセロナ</p>
+            </div>
+            <div class="neo-card bg-white p-4">
+              <p class="inline-flex items-center gap-1 text-xs font-black uppercase tracking-[0.4em] text-slate-600">
+                <%= heroicon("calendar", classes: "h-4 w-4") %>
+                日数
+              </p>
+              <p class="mt-2 text-lg font-black text-slate-900">約3日</p>
+            </div>
+          </div>
+
+          <div class="space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="inline-flex items-center gap-2 text-sm font-black text-slate-900">
+                <%= heroicon("clock", classes: "h-4 w-4") %>
+                <span>タイムライン</span>
+              </h4>
+              <span class="text-xs font-black text-primary-600">サンプル</span>
+            </div>
+
+            <div class="neo-card bg-white p-5 space-y-4">
+              <div>
+                <p class="text-xs font-black uppercase tracking-[0.4em] text-slate-600">1日目</p>
+                <h5 class="text-lg font-black text-slate-900">旧市街と市場を“無理なく”回る日</h5>
+              </div>
+
+              <div class="relative pl-4 space-y-6">
+                <div class="absolute left-2 top-2 bottom-2 w-[3px] bg-slate-900"></div>
+                <% [
+                  { time: "08:30", title: "Mercado Central", category: "市場", tip: "混雑前に軽く食べて体力を確保。" },
+                  { time: "11:00", title: "Ciutat Vella 散策", category: "散策", tip: "15分ごとに座れる場所をマーク。" },
+                  { time: "13:30", title: "Arrocería ランチ", category: "食事", tip: "メモ欄に“注文メモ”を残して共有。" }
+                ].each do |step| %>
+                  <div class="relative flex gap-3">
+                    <div class="relative z-10 mt-2 h-5 w-5 -ml-4 rounded-full border-[3px] border-slate-900 tr-primary-bg shadow-[3px_3px_0_0_rgba(15,23,42,0.3)] flex-shrink-0"></div>
+                    <div class="flex-1 min-w-0">
+                      <div class="mb-2 flex items-baseline gap-2">
+                        <span class="text-xs font-black uppercase tracking-wider text-slate-900"><%= step[:time] %></span>
+                      </div>
+                      <div class="neo-card bg-white p-4">
+                        <h6 class="text-base font-black text-slate-900"><%= step[:title] %></h6>
+                        <div class="mt-2 flex items-center gap-2">
+                          <span class="text-xs inline-flex items-center gap-1 neo-chip--pill bg-gray-50">
+                            <%= heroicon("flag", classes: "h-3 w-3") %>
+                            <%= step[:category] %>
+                          </span>
+                        </div>
+                        <div class="mt-4 border-[3px] border-amber-500 bg-amber-50 p-3 rounded-xl">
+                          <p class="text-xs font-black text-amber-800 mb-2 flex items-center gap-1 uppercase tracking-wider">
+                            <%= heroicon("light-bulb", classes: "h-3.5 w-3.5") %>
+                            コツ
+                          </p>
+                          <p class="text-sm font-semibold text-amber-900 leading-relaxed"><%= step[:tip] %></p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-auto w-full max-w-5xl space-y-8 rounded-[32px] border-[3px] border-slate-900 bg-[#f4f1ec] p-8 shadow-[14px_14px_0_0_#0f172a]">
+    <header class="space-y-3">
+      <p class="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.5em] text-slate-700">
+        <%= heroicon("exclamation-triangle", classes: "h-4 w-4 text-amber-500") %>
+        Problem
+      </p>
+      <h2 class="text-3xl font-black text-slate-900">SNSやAIでは、実際の「順序」は分からない。</h2>
+    </header>
+  </section>
+
+  <section class="mx-auto w-full max-w-5xl rounded-[32px] border-[3px] border-slate-900 bg-[#e3fbff] p-8 shadow-[14px_14px_0_0_#0f172a]">
+    <header class="space-y-3">
+      <p class="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.5em] text-slate-700">
+        <%= heroicon("cpu-chip", classes: "h-4 w-4 text-slate-900") %>
+        How It Works
+      </p>
+      <h2 class="text-3xl font-black text-slate-900">作ってみると、驚くほどシンプル</h2>
+      <p class="text-sm font-semibold text-slate-700">“順序”さえ揃えば、旅程は共有できる。3ステップで完成します。</p>
+    </header>
+    <div class="mt-6 grid gap-5 md:grid-cols-3">
+      <% flow_steps.each do |step| %>
+        <article class="rounded-[24px] border-[3px] border-slate-900 bg-white p-5 shadow-[8px_8px_0_0_#0f172a]">
+          <p class="text-xs font-black uppercase tracking-[0.5em] text-slate-500"><%= step[:step] %></p>
+          <h3 class="mt-3 text-xl font-black text-slate-900"><%= step[:title] %></h3>
+          <p class="mt-2 text-sm font-semibold leading-relaxed text-slate-700"><%= step[:detail] %></p>
+        </article>
+      <% end %>
+    </div>
+  </section>
+
+  <section class="mx-auto w-full max-w-5xl space-y-8 rounded-[32px] border-[3px] border-slate-900 bg-white p-8 shadow-[14px_14px_0_0_#0f172a]">
+    <header class="space-y-3">
+      <p class="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.5em] text-slate-700">
+        <%= heroicon("question-mark-circle", classes: "h-4 w-4 text-slate-900") %>
+        FAQ
+      </p>
+      <h2 class="text-3xl font-black text-slate-900">よくある質問をまとめました</h2>
+      <p class="text-sm font-semibold text-slate-700">TripRecipeの使い方や公開設定の考え方を、FAQページに整理しています。</p>
+    </header>
+
+    <div class="flex flex-wrap items-center justify-between gap-4 rounded-[24px] border-[3px] border-slate-900 bg-[#fffef6] p-6 shadow-[8px_8px_0_0_#0f172a]">
+      <div class="space-y-1">
+        <p class="text-sm font-black text-slate-900">まずはFAQで疑問をまとめて確認する</p>
+        <p class="text-xs font-semibold text-slate-700">はじめて使う方向けのよくある質問を1ページに集約しました。</p>
+      </div>
+      <%= render "shared/components/button", label: "FAQページを見る", href: faq_path, variant: :neo_primary %>
+    </div>
+  </section>
+
+  <section class="mx-auto w-full max-w-5xl rounded-[36px] border-[3px] border-slate-900 bg-slate-900 px-8 py-12 text-white shadow-[16px_16px_0_0_#0f172a]">
+    <div class="flex flex-col gap-8 md:flex-row md:items-center md:justify-between">
+      <div class="space-y-4">
+        <p class="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.6em] text-primary-200">
+          <%= heroicon("megaphone", classes: "h-4 w-4 text-primary-200") %>
+          Next Action
+        </p>
+        <h2 class="text-3xl font-black leading-snug">次の旅行、<br class="hidden md:block">“真似できる旅行のレシピ”から始めよう。</h2>
+        <p class="text-sm font-semibold text-primary-100/90">登録後すぐに、日別×時刻順の旅行のレシピを作成・共有できます。</p>
+      </div>
+      <div class="flex flex-wrap gap-4">
+        <% if user_signed_in? %>
+          <%= link_to new_recipe_path,
+                      class: "inline-flex items-center justify-center gap-2 rounded-full border-[3px] border-white bg-white px-6 py-3 text-sm font-black text-slate-900 shadow-[6px_6px_0_0_rgba(0,0,0,0.4)]" do %>
+            <%= heroicon("pencil-square", classes: "h-4 w-4 text-slate-900") %>
+            自分の旅をレシピ化
+          <% end %>
+        <% else %>
+          <%= link_to new_user_registration_path,
+                      class: "inline-flex items-center justify-center gap-2 rounded-full border-[3px] border-white bg-white px-6 py-3 text-sm font-black text-slate-900 shadow-[6px_6px_0_0_rgba(0,0,0,0.4)]" do %>
+            <%= heroicon("user-plus", classes: "h-4 w-4 text-slate-900") %>
+            無料でレシピを作る
+          <% end %>
+        <% end %>
+        <%= link_to recipes_path,
+                    class: "inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-black text-white hover:underline" do %>
+          <%= heroicon("share", classes: "h-4 w-4 text-white") %>
+          まずは公開レシピを見る
+        <% end %>
+      </div>
+    </div>
+  </section>
+</div>

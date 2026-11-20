@@ -1,0 +1,29 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Mass Assignment",
+      "warning_code": 105,
+      "fingerprint": "d18a22a7d35c8c27ba9b163836ef5056c659f9bd2585602021b0414f372fbd38",
+      "check_name": "PermitAttributes",
+      "message": "Potentially dangerous key allowed for mass assignment",
+      "file": "app/controllers/recipes/collaborators_controller.rb",
+      "line": 49,
+      "link": "https://brakemanscanner.org/docs/warning_types/mass_assignment/",
+      "code": "params.require(:recipe_collaborator).permit(:role)",
+      "render_path": null,
+      "location": {
+        "type": "method",
+        "class": "Recipes::CollaboratorsController",
+        "method": "collaborator_params"
+      },
+      "user_input": ":role",
+      "confidence": "Medium",
+      "cwe_id": [
+        915
+      ],
+      "note": "Intended behavior: Admins can update collaborator roles. User assignment is handled securely outside of mass assignment."
+    }
+  ],
+  "updated": "2025-12-14 11:20:00 +0100",
+  "brakeman_version": "7.1.1"
+}

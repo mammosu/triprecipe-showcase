@@ -1,0 +1,19 @@
+<%# locals: (recipe:, saved: false) %>
+<div id="<%= dom_id(recipe, :favorite_button_mobile) %>">
+  <% if user_signed_in? %>
+    <%= button_to recipe_saved_recipe_path(recipe),
+          method: saved ? :delete : :post,
+          class: "neo-btn-brutal #{saved ? 'bg-rose-200 text-rose-700' : 'bg-white text-rose-500'} p-2",
+          aria: { pressed: saved } do %>
+      <%= heroicon(
+            "heart",
+            classes: ["h-4 w-4", (saved ? "text-accent-600" : nil)].compact.join(" "),
+            variant: saved ? :solid : :outline
+          ) %>
+    <% end %>
+  <% else %>
+    <%= link_to new_user_session_path, class: "neo-btn-brutal bg-white text-rose-500 p-2" do %>
+      <%= heroicon("lock-closed", classes: "h-4 w-4") %>
+    <% end %>
+  <% end %>
+</div>

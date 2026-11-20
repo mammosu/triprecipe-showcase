@@ -1,0 +1,37 @@
+<% link_classes = "neo-btn-brutal bg-white text-sm font-black justify-center" %>
+<div class="flex flex-col gap-2">
+  <% if controller_name != "sessions" %>
+    <%= link_to new_session_path(resource_name), class: link_classes do %>
+      <%= heroicon("lock-closed", classes: "h-4 w-4") %>
+      <span>ログイン画面へ戻る</span>
+    <% end %>
+  <% end %>
+
+  <% if devise_mapping.registerable? && controller_name != "registrations" %>
+    <%= link_to new_registration_path(resource_name), class: link_classes do %>
+      <%= heroicon("user-circle", classes: "h-4 w-4") %>
+      <span>新規登録はこちら</span>
+    <% end %>
+  <% end %>
+
+  <% if devise_mapping.recoverable? && controller_name != "passwords" && controller_name != "registrations" %>
+    <%= link_to new_password_path(resource_name), class: link_classes do %>
+      <%= heroicon("key", classes: "h-4 w-4") %>
+      <span>パスワードをお忘れですか？</span>
+    <% end %>
+  <% end %>
+
+  <% if devise_mapping.confirmable? && controller_name != "confirmations" %>
+    <%= link_to new_confirmation_path(resource_name), class: link_classes do %>
+      <%= heroicon("envelope", classes: "h-4 w-4") %>
+      <span>確認メールを再送する</span>
+    <% end %>
+  <% end %>
+
+  <% if devise_mapping.lockable? && resource_class.unlock_strategy_enabled?(:email) && controller_name != "unlocks" %>
+    <%= link_to new_unlock_path(resource_name), class: link_classes do %>
+      <%= heroicon("question-mark-circle", classes: "h-4 w-4") %>
+      <span>ロック解除メールを再送する</span>
+    <% end %>
+  <% end %>
+</div>

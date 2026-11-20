@@ -1,0 +1,33 @@
+<% flash_messages ||= flash.to_hash.each_with_object([]) do |(type, message), memo| %>
+<%   next if message.blank? %>
+<%   memo << [ type.to_sym, message ] %>
+<% end %>
+
+<div id="flash-messages">
+  <% if flash_messages.any? %>
+    <div class="px-4 pt-4 md:px-6">
+      <div class="mx-auto w-full max-w-5xl space-y-3">
+        <% flash_messages.each do |type, message| %>
+          <% palette = case type
+                       when :alert, :error
+                         { icon: "exclamation-triangle", label: "エラー", color: "rgb(239,68,68)", bg: "rgb(254,226,226)" }
+                       when :notice, :success
+                         { icon: "check-circle", label: "完了", color: "rgb(16,185,129)", bg: "rgb(209,250,229)" }
+                       else
+                         { icon: "information-circle", label: "お知らせ", color: "rgb(20,184,166)", bg: "rgb(236,253,245)" }
+                       end %>
+          <div class="flex items-start gap-3 rounded-[28px] border-[3px] px-5 py-4 text-sm font-semibold shadow-[10px_10px_0_0_rgba(15,23,42,0.15)]"
+               style="border-color:<%= palette[:color] %>;background-color:<%= palette[:bg] %>;color:<%= palette[:color] %>">
+            <span class="inline-flex h-9 w-9 flex-shrink-0 items-center justify-center rounded-full bg-white text-sm">
+              <%= heroicon(palette[:icon], classes: "h-5 w-5") %>
+            </span>
+            <div class="space-y-1">
+              <p class="text-xs font-black uppercase tracking-[0.4em]"><%= palette[:label] %></p>
+              <p class="leading-relaxed text-slate-900" style="color:inherit"><%= message %></p>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+</div>

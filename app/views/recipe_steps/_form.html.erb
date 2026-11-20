@@ -1,0 +1,79 @@
+<% form_url = if recipe_step.persisted?
+                recipe_day_step_path(@recipe, @recipe_day, recipe_step)
+              else
+                recipe_day_steps_path(@recipe, @recipe_day)
+              end %>
+<%= form_with(model: recipe_step, url: form_url, class: "space-y-6") do |form| %>
+  <%= render "shared/errors", object: recipe_step %>
+
+  <div class="neo-panel bg-white p-6 space-y-5">
+    <div>
+      <%= form.label :title, "アクティビティ名", class: "block text-xs font-black uppercase tracking-[0.4em] text-slate-600" %>
+      <%= form.text_field :title, class: "mt-2 w-full rounded-2xl border-[3px] border-slate-900 px-4 py-3 focus:border-primary-500 focus:outline-none focus:ring-0" %>
+    </div>
+
+    <div class="grid gap-5 md:grid-cols-2">
+      <div>
+        <%= form.label :starts_at, "開始時刻", class: "block text-xs font-black uppercase tracking-[0.4em] text-slate-600" %>
+        <%= form.time_field :starts_at, class: "mt-2 w-full rounded-2xl border-[3px] border-slate-900 px-4 py-3 focus:border-primary-500 focus:outline-none focus:ring-0" %>
+      </div>
+      <div>
+        <%= form.label :ends_at, "終了時刻", class: "block text-xs font-black uppercase tracking-[0.4em] text-slate-600" %>
+        <%= form.time_field :ends_at, class: "mt-2 w-full rounded-2xl border-[3px] border-slate-900 px-4 py-3 focus:border-primary-500 focus:outline-none focus:ring-0" %>
+      </div>
+    </div>
+
+    <div class="grid gap-5 md:grid-cols-2">
+      <div>
+        <%= form.label :category, "カテゴリ", class: "block text-xs font-black uppercase tracking-[0.4em] text-slate-600" %>
+        <%= form.select :category,
+          RecipeStep::CATEGORIES.map { |cat| [I18n.t("recipe_steps.category.#{cat}", default: cat.titleize), cat] },
+          {},
+          class: "mt-2 w-full rounded-2xl border-[3px] border-slate-900 px-4 py-3 focus:border-primary-500 focus:outline-none focus:ring-0"
+        %>
+      </div>
+      <div>
+        <%= form.label :position, "表示順", class: "block text-xs font-black uppercase tracking-[0.4em] text-slate-600" %>
+        <%= form.number_field :position, in: 1..60, class: "mt-2 w-full rounded-2xl border-[3px] border-slate-900 px-4 py-3 focus:border-primary-500 focus:outline-none focus:ring-0" %>
+      </div>
+    </div>
+
+    <div>
+      <%= form.label :notes, "メモ", class: "block text-xs font-black uppercase tracking-[0.4em] text-slate-600" %>
+      <%= form.text_area :notes, rows: 4, class: "mt-2 w-full rounded-2xl border-[3px] border-slate-900 px-4 py-3 focus:border-primary-500 focus:outline-none focus:ring-0" %>
+    </div>
+
+    <div>
+      <%= form.label :photos, "写真 (最大3枚, 5MBまで)", class: "block text-xs font-black uppercase tracking-[0.4em] text-slate-600" %>
+      <%= form.file_field :photos, multiple: true, accept: RecipeStep::PHOTO_CONTENT_TYPES.join(","), class: "mt-2 w-full rounded-2xl border-[3px] border-dashed border-slate-400 px-4 py-6 text-sm font-semibold text-slate-700 cursor-pointer hover:border-slate-900" %>
+      <p class="mt-2 text-xs text-slate-600">PNG / JPEG / WEBP, 1枚5MBまで。最大3枚までアップロードできます。</p>
+
+      <% if recipe_step.photos.attached? %>
+        <div class="mt-4 grid grid-cols-3 gap-3">
+          <% recipe_step.photos.each do |photo| %>
+            <div id="<%= dom_id(photo) %>" class="relative group rounded-xl border border-gray-200 overflow-hidden">
+              <%= image_tag photo.variant(resize_to_limit: [320, 320]), alt: "ステップ写真", class: "w-full h-32 object-cover" %>
+              <%= link_to recipe_day_step_photo_path(@recipe, @recipe_day, recipe_step, photo),
+                          data: { turbo_method: :delete, turbo_confirm: "この写真を削除しますか？" },
+                          class: "absolute right-2 top-2 inline-flex h-8 w-8 items-center justify-center rounded-full bg-white/90 text-slate-900 shadow-sm transition-opacity duration-150 opacity-100 pointer-events-auto hover:bg-white md:opacity-0 md:pointer-events-none md:group-hover:opacity-100 md:group-hover:pointer-events-auto md:focus:opacity-100 md:focus:pointer-events-auto",
+                          aria: { label: "写真を削除" } do %>
+                <%= heroicon("trash", classes: "h-4 w-4") %>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="flex flex-wrap gap-3">
+    <%= form.submit class: "neo-btn-brutal bg-primary-100 text-sm font-black" do %>
+      <%= heroicon("check-circle", classes: "h-4 w-4") %>
+      <span>保存する</span>
+    <% end %>
+    <%= link_to recipe_path(@recipe), class: "neo-btn-brutal bg-white text-sm font-black" do %>
+      <%= heroicon("arrow-top-right-on-square", classes: "h-4 w-4") %>
+      <span>キャンセル</span>
+    <% end %>
+  </div>
+<% end %>

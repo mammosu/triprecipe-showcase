@@ -1,0 +1,16 @@
+root = true
+
+[*.{rb,js,jsx,ts,tsx,py,css,scss,html,md,yml,yaml,json,sh}]
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+[*.{Dockerfile,Makefile}]
+end_of_line = lf
+insert_final_newline = true
+
+[*.lock]
+indent_style = none

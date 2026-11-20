@@ -1,0 +1,11 @@
+<% content_for :title, "行動を追加" %>
+
+<div class="space-y-6">
+  <section class="neo-panel bg-white p-6">
+    <p class="text-xs font-black uppercase tracking-[0.4em] text-slate-600">行動</p>
+    <h1 class="text-3xl font-black text-slate-900">行動を追加</h1>
+    <p class="mt-2 text-sm font-semibold text-slate-700">開始/終了時刻、カテゴリ、メモを入力して、行動の流れをまとめます。</p>
+  </section>
+
+  <%= render "form", recipe_step: @recipe_step %>
+</div>

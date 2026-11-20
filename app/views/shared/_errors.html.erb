@@ -1,0 +1,14 @@
+<% object ||= nil %>
+<% container_id = object ? dom_id(object, :errors) : "errors" %>
+<div id="<%= container_id %>">
+  <% if object&.errors&.any? %>
+    <section class="rounded-[28px] border-[3px] border-red-500 bg-rose-50 p-5 text-sm font-semibold text-red-700 shadow-[12px_12px_0_0_rgba(239,68,68,0.25)]">
+      <p><%= pluralize(object.errors.count, "件") %>の入力エラーがあります。</p>
+      <ul class="mt-2 list-disc pl-5">
+        <% object.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </section>
+  <% end %>
+</div>

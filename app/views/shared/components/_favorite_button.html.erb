@@ -1,0 +1,22 @@
+<%# locals: (recipe:, saved: false) %>
+<div id="<%= dom_id(recipe, :favorite_button) %>">
+  <% if user_signed_in? %>
+    <%= button_to recipe_saved_recipe_path(recipe),
+          method: saved ? :delete : :post,
+          class: "neo-btn-brutal cursor-pointer #{saved ? 'bg-rose-200 text-rose-700' : 'bg-white text-rose-600'}",
+          aria: { pressed: saved } do %>
+      <%= heroicon(
+            "heart",
+            classes: ["h-4 w-4", (saved ? "text-accent-600" : nil)].compact.join(" "),
+            variant: saved ? :solid : :outline
+          ) %>
+      <span><%= saved ? "お気に入り解除" : "お気に入りに追加" %></span>
+    <% end %>
+  <% else %>
+    <%= link_to new_user_session_path,
+          class: "neo-btn-brutal bg-white text-rose-600" do %>
+      <%= heroicon("lock-closed", classes: "h-4 w-4") %>
+      <span>ログインしてお気に入り</span>
+    <% end %>
+  <% end %>
+</div>

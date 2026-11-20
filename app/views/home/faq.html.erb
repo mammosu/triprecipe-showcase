@@ -1,0 +1,60 @@
+<% content_for :title, "TripRecipe | FAQ" %>
+<% content_for :meta_description, "TripRecipeの使い方や公開設定について、よくある質問をまとめました。" %>
+
+<div class="mx-auto w-full max-w-5xl space-y-8 px-4 pb-16 pt-10 md:px-6">
+  <section class="space-y-8 rounded-[32px] border-[3px] border-slate-900 bg-white p-8 shadow-[14px_14px_0_0_#0f172a]">
+    <header class="space-y-3">
+      <p class="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.5em] text-slate-700">
+        <%= heroicon("question-mark-circle", classes: "h-4 w-4 text-slate-900") %>
+        FAQ
+      </p>
+      <h1 class="text-3xl font-black text-slate-900">よくある質問</h1>
+      <p class="text-sm font-semibold text-slate-700">はじめてでも迷わないように、ポイントだけまとめました。</p>
+    </header>
+
+    <div class="grid gap-5 md:grid-cols-3">
+      <article class="rounded-[24px] border-[3px] border-slate-900 bg-[#f8fefe] p-6 shadow-[8px_8px_0_0_#0f172a]">
+        <div class="inline-flex items-center gap-2 rounded-full border-[3px] border-slate-900 bg-amber-200 px-3 py-1 text-xs font-black text-slate-900">
+          <%= heroicon("beaker", classes: "h-4 w-4") %>
+          AIと何が違いますか？
+        </div>
+        <p class="mt-4 text-sm font-semibold leading-relaxed text-slate-700">
+          TripRecipeは<strong class="font-black text-slate-900">実際に回れた順序</strong>を、日別×時刻順で残します。
+          混雑回避・休憩・子どもペースなど<strong class="font-black text-slate-900">現地で効くコツ</strong>がセットなので、
+          「そのまま真似できる」旅程になりやすいです。
+        </p>
+      </article>
+
+      <article class="rounded-[24px] border-[3px] border-slate-900 bg-[#f8fefe] p-6 shadow-[8px_8px_0_0_#0f172a]">
+        <div class="inline-flex items-center gap-2 rounded-full border-[3px] border-slate-900 bg-primary-100 px-3 py-1 text-xs font-black text-slate-900">
+          <%= heroicon("shield-check", classes: "h-4 w-4") %>
+          公開しないと使えませんか？
+        </div>
+        <p class="mt-4 text-sm font-semibold leading-relaxed text-slate-700">
+          大丈夫です。<strong class="font-black text-slate-900">公開範囲を選べます</strong>。
+          まずは自分用に整理して、必要なときだけ共有リンクで家族や友人に見せる、という使い方もできます。
+        </p>
+      </article>
+
+      <article class="rounded-[24px] border-[3px] border-slate-900 bg-[#f8fefe] p-6 shadow-[8px_8px_0_0_#0f172a]">
+        <div class="inline-flex items-center gap-2 rounded-full border-[3px] border-slate-900 bg-emerald-200 px-3 py-1 text-xs font-black text-slate-900">
+          <%= heroicon("users", classes: "h-4 w-4") %>
+          子連れ以外でも役立ちますか？
+        </div>
+        <p class="mt-4 text-sm font-semibold leading-relaxed text-slate-700">
+          もちろんです。ひとり旅・カップル・友人同士でも、
+          <strong class="font-black text-slate-900">「順序が分かる」</strong>だけで当日の迷いが減ります。
+          “移動が多い日／ゆっくり過ごす日”など、ペース別のレシピにも向いています。
+        </p>
+      </article>
+    </div>
+
+    <div class="flex flex-wrap items-center justify-between gap-4 rounded-[24px] border-[3px] border-slate-900 bg-[#fffef6] p-6 shadow-[8px_8px_0_0_#0f172a]">
+      <div class="space-y-1">
+        <p class="text-sm font-black text-slate-900">まずは「真似できる旅程」を見てみる</p>
+        <p class="text-xs font-semibold text-slate-700">気になるレシピを保存して、次の旅行の候補に。</p>
+      </div>
+      <%= render "shared/components/button", label: "公開レシピへ", href: recipes_path, variant: :neo_primary %>
+    </div>
+  </section>
+</div>

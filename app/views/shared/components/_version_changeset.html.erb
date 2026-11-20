@@ -1,0 +1,33 @@
+<% compact = local_assigns.fetch(:compact, false) %>
+
+<% if version.changeset.present? %>
+  <div class="mt-2 space-y-2 text-xs font-semibold text-slate-700">
+    <% version.changeset.each do |attr, (old_val, new_val)| %>
+      <div class="rounded-[20px] border-[2px] border-slate-900 bg-slate-50 <%= compact ? "p-2" : "p-3" %>">
+        <div class="<%= compact ? "mb-1 text-[10px]" : "mb-2 text-[11px]" %> font-black text-slate-700">
+          <%= version_attribute_label(version.item_type, attr) %>
+        </div>
+        <div class="grid gap-2 md:grid-cols-2">
+          <div class="rounded-xl border border-rose-200 bg-rose-50 px-2 py-1 text-rose-700">
+            <span class="text-[10px] font-black uppercase tracking-[0.2em]">旧</span>
+            <div class="mt-1 break-words <%= compact ? "text-[11px]" : "text-xs" %> font-semibold"><%= format_version_value(old_val) %></div>
+          </div>
+          <div class="rounded-xl border border-emerald-200 bg-emerald-50 px-2 py-1 text-emerald-700">
+            <span class="text-[10px] font-black uppercase tracking-[0.2em]">新</span>
+            <div class="mt-1 break-words <%= compact ? "text-[11px]" : "text-xs" %> font-semibold"><%= format_version_value(new_val) %></div>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+<% else %>
+  <% if compact %>
+    <div class="mt-2 text-[11px] font-semibold text-slate-500">
+      差分はありません。
+    </div>
+  <% else %>
+    <div class="neo-dashed text-center">
+      差分はありません。
+    </div>
+  <% end %>
+<% end %>

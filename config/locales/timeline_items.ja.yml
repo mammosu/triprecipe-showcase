@@ -1,0 +1,8 @@
+ja:
+  recipe_steps:
+    category:
+      activity: アクティビティ
+      food: 食事
+      move: 移動
+      stay: 宿泊
+      other: その他

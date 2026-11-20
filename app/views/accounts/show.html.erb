@@ -1,0 +1,129 @@
+<% content_for :title, "アカウント" %>
+
+<div class="space-y-6">
+  <section class="neo-panel bg-white p-6">
+    <p class="text-xs font-black uppercase tracking-[0.4em] text-slate-600">アカウント</p>
+    <h1 class="mt-2 text-3xl font-black text-slate-900">アカウント設定</h1>
+    <p class="mt-2 text-sm font-semibold text-slate-700">
+      登録済みのメールアドレスを確認し、コラボレーター招待を管理できます。
+    </p>
+    <div class="mt-4">
+      <%= link_to edit_profile_path, class: "neo-btn-brutal bg-primary-100 text-sm font-black" do %>
+        <%= heroicon("pencil-square", classes: "h-4 w-4") %>
+        <span>プロフィールを編集</span>
+      <% end %>
+      <%= link_to edit_user_registration_path, class: "neo-btn-brutal bg-white text-sm font-black" do %>
+        <%= heroicon("envelope", classes: "h-4 w-4") %>
+        <span>メール/パスワード設定</span>
+      <% end %>
+    </div>
+    <dl class="mt-6 grid gap-4 md:grid-cols-2 text-sm font-semibold text-slate-700">
+      <div class="neo-card bg-white p-4">
+        <dt class="text-xs font-black uppercase tracking-[0.4em] text-slate-600">表示名</dt>
+        <dd class="mt-2 text-lg font-black text-slate-900"><%= display_user_identifier(current_user) %></dd>
+      </div>
+      <div class="neo-card bg-white p-4">
+        <dt class="text-xs font-black uppercase tracking-[0.4em] text-slate-600">メールアドレス</dt>
+        <dd class="mt-2 text-lg font-black text-slate-900"><%= current_user.email %></dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="neo-panel bg-white p-6">
+    <header class="flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <p class="text-xs font-black uppercase tracking-[0.4em] text-slate-600">招待</p>
+        <h2 class="text-2xl font-black text-slate-900">受け取ったコラボレーター招待</h2>
+        <p class="text-sm font-semibold text-slate-700">承認するとレシピの共同編集が可能になります。</p>
+      </div>
+      <%= link_to "コラボレーター管理へ", recipes_path, class: "neo-btn-brutal bg-white text-xs hidden md:inline-flex" %>
+    </header>
+
+    <% if @pending_invitations.any? %>
+      <div class="mt-6 space-y-4">
+        <% @pending_invitations.each do |invitation| %>
+          <article class="rounded-[28px] border-[3px] border-slate-900 bg-white p-5 shadow-[10px_10px_0_0_#0f172a]">
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p class="text-xs font-black uppercase tracking-[0.4em] text-slate-600">レシピ</p>
+                <h3 class="text-xl font-black text-slate-900"><%= invitation.recipe.title.presence || "無題のレシピ" %></h3>
+                <p class="text-xs font-semibold text-slate-600 mt-1">
+                  招待者: <%= display_user_identifier(invitation.recipe.user) %> /
+                  ロール: <%= invitation.role_label %>
+                </p>
+              </div>
+              <p class="text-xs font-semibold text-slate-600">
+                招待日: <%= invitation.invited_at&.strftime("%Y/%m/%d") %>
+              </p>
+            </div>
+            <div class="mt-4 flex flex-wrap items-center gap-2 text-xs font-black">
+              <%= button_to accept_collaborator_invitation_path(invitation.invitation_token),
+                            method: :post,
+                            class: "neo-btn-brutal bg-primary-100" do %>
+                <%= heroicon("check", classes: "h-4 w-4") %>
+                承認
+              <% end %>
+              <%= button_to decline_collaborator_invitation_path(invitation.invitation_token),
+                            method: :post,
+                            data: { turbo_confirm: "この招待を辞退しますか？" },
+                            class: "neo-btn-brutal bg-white text-red-600" do %>
+                <%= heroicon("x-mark", classes: "h-4 w-4") %>
+                辞退
+              <% end %>
+              <%= link_to recipe_path(invitation.recipe),
+                          class: "neo-btn-brutal bg-white" do %>
+                <%= heroicon("map", classes: "h-4 w-4") %>
+                レシピへ
+              <% end %>
+            </div>
+          </article>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="mt-6 neo-dashed text-sm font-semibold text-slate-600 text-center">
+        現在、承認待ちの招待はありません。
+      </div>
+    <% end %>
+  </section>
+
+  <section class="neo-panel bg-white p-6">
+    <header class="flex flex-wrap items-center justify-between gap-3">
+      <div>
+        <p class="text-xs font-black uppercase tracking-[0.4em] text-slate-600">参加中</p>
+        <h2 class="text-2xl font-black text-slate-900">参加中のレシピ</h2>
+        <p class="text-sm font-semibold text-slate-700">共同編集権限のあるレシピを確認できます。</p>
+      </div>
+    </header>
+
+    <% if @active_collaborations.any? %>
+      <div class="mt-6 space-y-4">
+        <% @active_collaborations.each do |collab| %>
+          <article class="rounded-[24px] border-[3px] border-slate-900 bg-white p-5 shadow-[10px_10px_0_0_#0f172a] flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p class="text-xs font-black uppercase tracking-[0.4em] text-slate-600">レシピ</p>
+              <h3 class="text-xl font-black text-slate-900"><%= collab.recipe.title.presence || "無題のレシピ" %></h3>
+              <p class="text-xs font-semibold text-slate-600 mt-1">
+                オーナー: <%= display_user_identifier(collab.recipe.user) %> /
+                ロール: <%= collab.role_label %>
+              </p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2 text-xs font-black">
+              <%= link_to recipe_path(collab.recipe), class: "neo-btn-brutal bg-white" do %>
+                <%= heroicon("map", classes: "h-4 w-4") %>
+                レシピへ
+              <% end %>
+              <%= link_to recipe_collaborators_path(collab.recipe), class: "neo-btn-brutal bg-white" do %>
+                <%= heroicon("users", classes: "h-4 w-4") %>
+                コラボ管理
+              <% end %>
+            </div>
+          </article>
+        <% end %>
+      </div>
+    <% else %>
+      <div class="mt-6 neo-dashed text-sm font-semibold text-slate-600 text-center">
+        参加中のレシピはまだありません。
+      </div>
+    <% end %>
+  </section>
+</div>

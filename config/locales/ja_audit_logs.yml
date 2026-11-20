@@ -1,0 +1,38 @@
+ja:
+  activerecord:
+    models:
+      recipe: "レシピ"
+      recipe_day: "日程"
+      recipe_step: "行動"
+    attributes:
+      recipe:
+        title: "タイトル"
+        city_display: "都市"
+        days_count: "日数"
+        description: "説明"
+        public: "公開設定"
+        last_edited_by_email: "最終更新者"
+        actor_email: "実行者メールアドレス"
+        cover_image: "カバー写真"
+        slug: "スラッグ"
+      recipe_day:
+        title: "日程タイトル"
+        notes: "メモ"
+        day_order: "日番号"
+        starts_on: "開始日"
+        last_edited_by_email: "最終更新者"
+        actor_email: "実行者メールアドレス"
+      recipe_step:
+        title: "行動"
+        notes: "メモ"
+        category: "カテゴリ"
+        starts_at: "開始時刻"
+        ends_at: "終了時刻"
+        position: "順序"
+        last_edited_by_email: "最終更新者"
+        actor_email: "実行者メールアドレス"
+        photo_removed: "画像の削除"
+        photos_added: "画像の追加"
+      audit_log:
+        actor_email: "実行者メールアドレス"
+        photo_removed: "画像削除"

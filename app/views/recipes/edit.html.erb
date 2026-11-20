@@ -1,0 +1,16 @@
+<% content_for :title, "レシピを編集" %>
+
+<section class="neo-panel bg-white p-6">
+  <p class="text-xs font-black uppercase tracking-[0.4em] text-amber-600">編集</p>
+  <h1 class="mt-2 text-3xl font-black text-slate-900">旅行レシピを編集</h1>
+  <p class="mt-3 text-sm font-semibold leading-relaxed text-slate-700">
+    スマホでもPCでも見やすい配置で、旅の内容と公開設定をまとめて編集できます。
+  </p>
+  <div class="mt-4 flex flex-wrap gap-2 text-xs font-black text-slate-900">
+    <span class="neo-chip neo-chip--pill bg-white text-slate-900">状態: <%= @recipe.public? ? "公開" : "非公開" %></span>
+    <%= link_to "レシピを表示", @recipe,
+                class: "neo-btn-brutal bg-white text-slate-900 text-[12px]" %>
+  </div>
+</section>
+
+<%= render "form", recipe: @recipe %>

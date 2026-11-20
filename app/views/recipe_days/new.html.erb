@@ -1,0 +1,11 @@
+<% content_for :title, "日程を追加" %>
+
+<div class="space-y-6">
+  <section class="neo-panel bg-white p-6">
+    <p class="text-xs font-black uppercase tracking-[0.4em] text-slate-600">日程</p>
+    <h1 class="mt-2 text-3xl font-black text-slate-900">日程を追加</h1>
+    <p class="mt-2 text-sm font-semibold text-slate-700">1日ごとの予定やメモを、順番に整理できます。</p>
+  </section>
+
+  <%= render "form", recipe_day: @recipe_day %>
+</div>

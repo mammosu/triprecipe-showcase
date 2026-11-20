@@ -1,0 +1,7 @@
+#!/usr/bin/env ruby
+require "rubygems"
+require "bundler/setup"
+
+# Run the Brakeman version locked by Bundler; dependency updates are managed separately.
+
+load Gem.bin_path("brakeman", "brakeman")

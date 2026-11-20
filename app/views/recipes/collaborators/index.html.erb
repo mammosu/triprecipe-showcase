@@ -1,0 +1,134 @@
+<% content_for :title, "コラボレーター管理 - #{@recipe.title}" %>
+
+<div class="mx-auto max-w-5xl px-4 py-8 space-y-6">
+  <div class="mb-6">
+    <%= link_to recipe_path(@recipe), class: "inline-flex items-center gap-2 text-sm font-semibold text-slate-600 hover:text-slate-900" do %>
+      <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+      </svg>
+      レシピに戻る
+    <% end %>
+  </div>
+
+  <section class="neo-panel bg-white p-6">
+    <p class="text-xs font-black uppercase tracking-[0.4em] text-slate-600">共同編集</p>
+    <h1 class="mt-2 text-3xl font-black text-slate-900">コラボレーター管理</h1>
+    <p class="mt-2 text-sm font-semibold text-slate-700">招待や権限の変更をここで行えます。</p>
+  </section>
+
+  <div class="rounded-[32px] border-[3px] border-slate-900 bg-white p-6 shadow-[14px_14px_0_0_#0f172a]">
+    <h2 class="mb-4 text-xl font-black text-slate-900">新しいコラボレーターを招待</h2>
+
+    <%= form_with model: RecipeCollaborator.new, url: recipe_collaborators_path(@recipe), class: "space-y-4" do |f| %>
+      <div>
+        <label class="mb-2 block text-xs font-black uppercase tracking-[0.4em] text-slate-600" for="recipe_collaborator_invite_email">
+          招待先のメールアドレス
+        </label>
+        <%= f.email_field :invite_email,
+            value: nil,
+            placeholder: "example@domain.com",
+            required: true,
+            class: "w-full rounded-2xl border-[3px] border-slate-900 px-4 py-2 text-sm font-semibold text-slate-900 focus:outline-none focus:ring-0" %>
+        <p class="mt-1 text-sm font-semibold text-slate-600">既存ユーザーのメールアドレスを入力してください。未登録のメールには招待メールが送信されます。</p>
+      </div>
+
+      <div>
+        <label class="mb-2 block text-xs font-black uppercase tracking-[0.4em] text-slate-600" for="recipe_collaborator_role">
+          ロール
+        </label>
+        <%= f.select :role,
+            RecipeCollaborator.roles.keys.map { |role| [role == "viewer" ? "閲覧者" : role == "editor" ? "編集者" : "管理者", role] },
+            {},
+            { class: "w-full rounded-2xl border-[3px] border-slate-900 px-4 py-2 text-sm font-semibold text-slate-900 focus:outline-none focus:ring-0" } %>
+        <p class="mt-1 text-sm font-semibold text-slate-600">
+          閲覧者: 閲覧のみ / 編集者: 編集可能 / 管理者: コラボレーター管理も可能
+        </p>
+      </div>
+
+      <%= f.submit "招待を送信", class: "neo-btn-brutal bg-primary-100 text-sm font-black" %>
+    <% end %>
+  </div>
+
+  <!-- 承認済みコラボレーター -->
+  <% if @accepted_collaborators.any? %>
+    <div class="mb-8">
+      <h2 class="mb-4 text-xl font-black text-slate-900">コラボレーター</h2>
+      <div class="space-y-2">
+        <% @accepted_collaborators.each do |collaborator| %>
+          <div class="flex items-center justify-between rounded-[24px] border-[3px] border-slate-900 bg-white p-4 shadow-[8px_8px_0_0_#0f172a]">
+            <div class="flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-full bg-primary-500 text-white font-black">
+                <%= user_initial(collaborator.user) %>
+              </div>
+              <div>
+                <p class="font-black text-slate-900"><%= display_user_identifier(collaborator.user) %></p>
+                <p class="text-sm font-semibold text-slate-600">
+                  <%= collaborator.viewer? ? "閲覧者" : collaborator.editor? ? "編集者" : "管理者" %>
+                </p>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-2">
+              <%= form_with model: collaborator, url: recipe_collaborator_path(@recipe, collaborator), method: :patch, class: "inline" do |f| %>
+                <%= f.select :role,
+                    RecipeCollaborator.roles.keys.map { |role| [role == "viewer" ? "閲覧者" : role == "editor" ? "編集者" : "管理者", role] },
+                    { selected: collaborator.role },
+                    { class: "rounded-2xl border-[3px] border-slate-900 px-3 py-1 text-sm font-semibold text-slate-900",
+                      onchange: "this.form.requestSubmit()" } %>
+              <% end %>
+
+              <%= button_to recipe_collaborator_path(@recipe, collaborator),
+                  method: :delete,
+                  data: { turbo_confirm: "本当に削除しますか？" },
+                  class: "neo-btn-brutal bg-white text-red-600 text-xs" do %>
+                削除
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <!-- 招待中のコラボレーター -->
+  <% if @pending_collaborators.any? %>
+    <div>
+      <h2 class="mb-4 text-xl font-black text-slate-900">招待中</h2>
+      <div class="space-y-2">
+        <% @pending_collaborators.each do |collaborator| %>
+          <div class="flex items-center justify-between rounded-[24px] border-[3px] border-slate-900 bg-white p-4 shadow-[8px_8px_0_0_#0f172a] opacity-80">
+            <div class="flex items-center gap-4">
+              <div class="flex h-10 w-10 items-center justify-center rounded-full bg-gray-300 text-gray-700 font-black">
+                <% if collaborator.user.present? %>
+                  <%= user_initial(collaborator.user) %>
+                <% else %>
+                  <%= collaborator.invite_email.to_s[0].to_s.upcase %>
+                <% end %>
+              </div>
+              <div>
+                <p class="font-black text-slate-900"><%= collaborator.user.present? ? display_user_identifier(collaborator.user) : collaborator.invite_email %></p>
+                <p class="text-sm font-semibold text-slate-600">
+                  <%= collaborator.viewer? ? "閲覧者" : collaborator.editor? ? "編集者" : "管理者" %> (招待中)
+                </p>
+              </div>
+            </div>
+
+            <%= button_to recipe_collaborator_path(@recipe, collaborator),
+                method: :delete,
+                data: { turbo_confirm: "招待を取り消しますか？" },
+                class: "neo-btn-brutal bg-white text-xs text-slate-600" do %>
+              取り消し
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  <% end %>
+
+  <% if @accepted_collaborators.empty? && @pending_collaborators.empty? %>
+    <div class="neo-dashed text-center">
+      <p class="font-semibold text-slate-600">まだコラボレーターがいません。</p>
+      <p class="mt-2 text-sm font-semibold text-slate-600">上のフォームから新しいコラボレーターを招待してください。</p>
+    </div>
+  <% end %>
+</div>

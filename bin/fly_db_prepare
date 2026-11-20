@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Ensure persistent storage ownership and permissions before running migrations
+# This script is intended to be used as Fly's release_command.
+
+STORAGE_DIR="/rails/storage"
+DATA_DIR="/data"
+
+echo "[fly_db_prepare] ensuring storage ownership and permissions"
+# prefer rails user if present
+if id -u rails >/dev/null 2>&1; then
+  chown -R rails:rails "$STORAGE_DIR" "$DATA_DIR" 2>/dev/null || true
+else
+  chown -R root:root "$STORAGE_DIR" "$DATA_DIR" 2>/dev/null || true
+fi
+chmod -R u+rwX,g+rwX,o-rwx "$STORAGE_DIR" "$DATA_DIR" 2>/dev/null || true
+
+echo "[fly_db_prepare] running db:prepare"
+exec ./bin/rails db:prepare

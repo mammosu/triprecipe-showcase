@@ -1,0 +1,29 @@
+<% content_for :title, "お気に入り" %>
+
+<div class="space-y-8">
+  <section class="neo-panel bg-[#fffef6] p-8">
+    <div class="flex flex-wrap items-center justify-between gap-4">
+      <div class="space-y-3">
+        <p class="neo-chip text-slate-900">保存済み</p>
+        <h1 class="text-3xl font-black text-slate-900">お気に入りレシピ</h1>
+        <p class="text-sm font-semibold leading-relaxed text-slate-700">
+          気になったレシピをまとめて保存。次の旅の計画にそのまま使えます。
+        </p>
+      </div>
+      <%= link_to "レシピ一覧に戻る", recipes_path,
+                  class: "neo-btn-brutal bg-white" %>
+    </div>
+  </section>
+
+  <% if @favorite_recipes.present? %>
+    <div class="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+      <% @favorite_recipes.each do |plan| %>
+        <%= render "shared/components/plan_card", plan: plan %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="neo-dashed text-sm font-semibold text-slate-700">
+      まだお気に入りのレシピはありません。公開レシピ詳細ページの「ハート」ボタンから登録できます。
+    </div>
+  <% end %>
+</div>

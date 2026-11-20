@@ -1,0 +1,24 @@
+<% content_for :title, "履歴 - #{@recipe.title}" %>
+
+<div class="mx-auto max-w-4xl px-4 py-8">
+  <div class="mb-4 flex items-center gap-2 text-sm">
+    <%= link_to recipe_path(@recipe), class: "inline-flex items-center gap-1 tr-text-secondary hover:tr-text-main" do %>
+      <%= heroicon("arrow-left", classes: "h-4 w-4") %>
+      <span>レシピに戻る</span>
+    <% end %>
+  </div>
+
+  <h1 class="mb-6 text-2xl font-semibold tr-text-main">履歴</h1>
+
+  <% if @audit_logs.any? %>
+    <div class="divide-y divide-gray-100 rounded-lg border tr-border tr-bg">
+      <% @audit_logs.each do |log| %>
+        <%= render "event", log: log %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="rounded-lg border border-dashed tr-border-strong tr-bg p-6 text-center tr-text-sub">
+      履歴がまだありません。
+    </div>
+  <% end %>
+</div>
