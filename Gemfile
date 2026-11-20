@@ -47,7 +47,7 @@ gem "thruster", require: false
 # S3-compatible storage (Cloudflare R2 uses the S3 API)
 gem "aws-sdk-s3", require: false
 gem "image_processing", "~> 2.2"
-gem "mini_magick", "~> 5.3"
+gem "mini_magick", "~> 5.4"
 gem "ruby-vips", "~> 2.3", require: false
 
 group :development, :test do
