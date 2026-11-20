@@ -48,8 +48,8 @@ For design decisions and planned work, see [project documentation](docs/README.m
 Prerequisites: Ruby 3.4.1, Bundler, and SQLite. See `.ruby-version` and `Gemfile` for the maintained versions.
 
 ```bash
-git clone https://github.com/mammosu/triprecipe-portfolio.git
-cd triprecipe-portfolio
+git clone https://github.com/mammosu/triprecipe-showcase.git
+cd triprecipe-showcase
 bin/setup --skip-server
 bin/dev
 ```
