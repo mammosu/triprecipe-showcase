@@ -88,7 +88,7 @@ end
 
 gem "devise", "~> 5.0"
 gem "pundit"
-gem "avo", "~> 3.33.2"
+gem "avo", "~> 3.34.1"
 gem "acts_as_list"
 
 gem "dockerfile-rails", ">= 1.7", group: :development
