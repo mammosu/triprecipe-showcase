@@ -81,10 +81,10 @@ GEM
     acts_as_list (1.2.6)
       activerecord (>= 6.1)
       activesupport (>= 6.1)
-    addressable (2.9.2)
+    addressable (2.10.0)
       public_suffix (>= 2.0.2, < 8.0)
     ast (2.4.3)
-    avo (3.33.4)
+    avo (3.34.6)
       actionview (>= 6.1)
       active_link_to
       activerecord (>= 6.1)
@@ -93,7 +93,7 @@ GEM
       avo-icons (>= 0.1.2)
       docile
       meta-tags
-      pagy (>= 7.0.0, < 43)
+      pagy (>= 7.0.0)
       prop_initializer (>= 0.3.0)
       turbo-rails (>= 2.0.0)
       turbo_power (>= 0.6.0)
@@ -314,7 +314,7 @@ GEM
       activesupport (>= 3.0.0)
     raabro (1.5.0)
     racc (1.8.1)
-    rack (3.2.8)
+    rack (3.2.9)
     rack-session (2.1.2)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -500,7 +500,7 @@ GEM
     unicode-emoji (4.2.0)
     uri (1.1.2)
     useragent (0.16.11)
-    view_component (4.24.0)
+    view_component (4.25.0)
       actionview (>= 7.1.0)
       activesupport (>= 7.1.0)
       prism (>= 1.0)
@@ -532,7 +532,7 @@ PLATFORMS
 
 DEPENDENCIES
   acts_as_list
-  avo (~> 3.33.2)
+  avo (~> 3.34.6)
   aws-sdk-s3
   better_errors
   binding_of_caller
